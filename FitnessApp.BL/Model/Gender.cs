@@ -2,8 +2,8 @@
 
 namespace FitnessApp.BL.Model
 {
-    [Serializable]
     // TODO: Realize different formats for entering gender, for example: M/F, Male/Female, m/f, male/female, ...
+    [Serializable]
     public class Gender
     {
         /// <summary>

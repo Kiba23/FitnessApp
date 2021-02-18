@@ -6,10 +6,16 @@ namespace FitnessApp.BL.Model
     public class User
     {
         public string Name { get; }
-        public Gender Gender { get; }
-        public DateTime BirthDate { get; }
+        public Gender Gender { get; set; }
+        public DateTime BirthDate { get; set; }
         public double Weight { get; set; }
         public double Height { get; set; }
+        public int Age { get { 
+                DateTime nowDate = DateTime.Today;
+                int age = nowDate.Year - BirthDate.Year;
+                if (BirthDate > nowDate.AddYears(-age)) age--;
+                return age;
+            } }
 
         /// <summary>
         /// Creating of new User (Constructor)
@@ -59,9 +65,19 @@ namespace FitnessApp.BL.Model
             Height = height;
         }
 
+        public User(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException("Name can't be empty.", nameof(name));
+            }
+
+            Name = name;
+        }
+
         public override string ToString()
         {
-            return $"User: {Name} - {Gender} - {BirthDate} - {Weight} - {Height}.";
+            return $"User: {Name} - {Gender} - {Age} - {Weight} - {Height}.";
         }
     }
 }
