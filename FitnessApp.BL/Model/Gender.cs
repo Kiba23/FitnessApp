@@ -19,7 +19,7 @@ namespace FitnessApp.BL.Model
         {
             if (String.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentNullException("Gender can't be null or empty", nameof(name));
+                throw new ArgumentNullException("Gender can't be null or empty.", nameof(name));
             }
 
             Name = name;

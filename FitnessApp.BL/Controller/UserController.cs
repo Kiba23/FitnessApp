@@ -1,17 +1,16 @@
 ﻿using FitnessApp.BL.Model;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FitnessApp.BL.Controller
 {
     /// <summary>
     /// Controller for User.
     /// </summary>
-    public class UserController
+    public class UserController : ControllerBase
     {
+        private const string USERS_FILE_NAME = "users.dat";
         /// <summary>
         /// User of the app.
         /// </summary>
@@ -47,23 +46,8 @@ namespace FitnessApp.BL.Controller
         /// Getting User's data.
         /// </summary>
         private List<User> GetUsersData() // Deserialization from bin file. It will be used in DI in the future
-        {    
-            var binFormattor = new BinaryFormatter();
-
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                if (fs.Length > 0)
-                {
-                    if (binFormattor.Deserialize(fs) is List<User> users)
-                        return users;
-                    else
-                        return new List<User>();
-                }
-                else
-                {
-                    return new List<User>();
-                }
-            }
+        {
+            return Load<List<User>>(USERS_FILE_NAME) ?? new List<User>();
         }
 
         /// <summary>
@@ -108,12 +92,7 @@ namespace FitnessApp.BL.Controller
         /// </summary>
         public void Save() // Serialization to bin file. It will be used in DI in the future
         {
-            var binFormattor = new BinaryFormatter();
-
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                binFormattor.Serialize(fs, Users);
-            }
+            base.Save(USERS_FILE_NAME, Users);
         }
     }
 }
